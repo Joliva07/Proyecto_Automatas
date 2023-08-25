@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Prueba.exe",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "C://Users//lopez//OneDrive//Escritorio//UMG//6to Semestre//Automatas y Lenguajes Formales//Proyecto Final//Prueba.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true
+        }
+    ]
+}
