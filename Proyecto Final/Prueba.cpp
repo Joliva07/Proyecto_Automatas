@@ -1,10 +1,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <iterator>
 #include <limits>
 #include <algorithm>
 #include <chrono>
 #include <thread>
+#include "C:\Users\lopez\OneDrive\Escritorio\UMG\6to Semestre\Automatas y Lenguajes Formales\Proyecto Final\Libraries\rapidxml.hpp"
 
 #ifdef _WIN32
 #include <cstdlib>
@@ -32,6 +35,38 @@ bool isXML(const std::string& filename) {
     return false;
 }
 
+void processNode(rapidxml::xml_node<>* node) {
+    for (rapidxml::xml_node<>* childNode = node->first_node(); childNode; childNode = childNode->next_sibling()) {
+        if (childNode->type() == rapidxml::node_data) {
+            std::cout << "Valor: " << childNode->value() << std::endl;
+        } else {
+            processNode(childNode);
+        }
+    }
+}
+
+void parseXML(const std::string& filePath) {
+    std::ifstream fileStream(filePath);
+    if (fileStream.is_open()) {
+        std::vector<char> buffer((std::istreambuf_iterator<char>(fileStream)), std::istreambuf_iterator<char>());
+        buffer.push_back('\0'); // Agregar un terminador nulo al final
+
+        rapidxml::xml_document<> doc;
+        doc.parse<0>(&buffer[0]); // Analizar el contenido del archivo
+
+        std::cout << "Valores encontrados en el Archivo XML:\n";
+
+        rapidxml::xml_node<>* rootNode = doc.first_node();
+        if (rootNode) {
+            processNode(rootNode);
+        } else {
+            std::cerr << "Error: No se encontró el elemento raíz." << std::endl;
+        }
+    } else {
+        std::cerr << "Error al abrir el archivo: " << filePath << std::endl;
+    }
+}
+
 void createAFN() {
     // Aquí puedes agregar la lógica para crear un AFN (Automaton Finite State Network)
     // Por ahora, esta función está vacía
@@ -48,7 +83,7 @@ std::string extractFileName(const std::string& filePath) {
 
 int main() {
     std::cout << "Bienvenido al programa de manejo de archivos y operaciones AFN." << std::endl;
-    std::this_thread::sleep_for(std::chrono::seconds(5)); // Espera de 2 segundos
+    std::this_thread::sleep_for(std::chrono::seconds(2)); // Espera de 2 segundos
 
     std::string currentFile;
     std::string currentFilePath;
@@ -88,21 +123,13 @@ int main() {
                 break;
             }
             case 2: {
-                if (!currentFilePath.empty()) {
-                    std::ifstream fileStream(currentFilePath);
-                    if (fileStream.is_open()) {
-                        std::cout << "Previsualizacion del contenido del archivo:\n";
-                        std::string line;
-                        while (std::getline(fileStream, line)) {
-                            std::cout << line << std::endl;
-                        }
-                        fileStream.close();
-                    }
-                } else {
-                    std::cerr << "Error: No se ha seleccionado un archivo XML." << std::endl;
-                }
-                break;
-            }
+        if (!currentFilePath.empty()) {
+            parseXML(currentFilePath);
+        } else {
+            std::cerr << "Error: No se ha seleccionado un archivo XML." << std::endl;
+        }
+        break;
+    }
             case 3: {
                 createAFN();
                 break;

@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:\\Users\\lopez\\OneDrive\\Escritorio\\UMG\\6to Semestre\\Automatas y Lenguajes Formales\\Proyecto Final\\Libraries\\"
             ],
             "defines": [
                 "_DEBUG",
@@ -18,7 +19,8 @@
         {
             "name": "Compilador",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "ruta/a/la/carpeta/que/contiene/rapidxml_hpp/"
             ],
             "defines": [
                 "_DEBUG",
